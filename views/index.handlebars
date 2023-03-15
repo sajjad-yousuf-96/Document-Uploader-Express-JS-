@@ -1,0 +1,45 @@
+<h1 class="text-center mb-3">{{title}}</h1>
+<form action="/" method="POST" class="mb-4" enctype="multipart/form-data">
+<div class="form-group">
+<label for="names">Name</label>
+<input type="text" name="names" class="form-control">
+</div>
+<div class="form-group">
+<label for="email">Email</label>
+<input type="email" name="email" class="form-control">
+</div>
+<div class="form-group">
+<label for="image">Image</label>
+<input type="file" name="image">
+</div>
+<input type="submit" value="Add Member" class="btn btn-primary btn-block">
+</form>
+<div class="table">
+    <table class="table table-striped text-center">
+        <thead>
+            <tr>
+                <th>NAMES</th>
+                <th>E-mail</th>
+                <th>Images</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each users}}
+            <tr>
+                <td>{{this.name}}</td>
+                <td>{{this.email}}</td>
+                <td><a href="/{{this.image}}" download="/{{this.image}}"> Download</td>
+                <td>
+                    <a href="/api/members/edit/{{this._id}}" class="text-success">EDIT<i class="fas fa-edit"></i></a>
+                    <a href="/delete/{{this._id}}" class="text-danger">DELETE<i class="fas fa-trash"></i></a>
+                </td>
+
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+{{!-- {{#each members}}
+<li class="list-group-item">{{this.names}}: {{this.email}}</li>
+{{/each}} --}}
+</div>
