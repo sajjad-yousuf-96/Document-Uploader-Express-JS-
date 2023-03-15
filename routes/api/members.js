@@ -1,7 +1,7 @@
 
 const express = require('express');
 const uuid = require('uuid')
-
+const fs = require('fs')
 const router = express.Router();
 const members = require('../../Members');
 
@@ -32,7 +32,7 @@ router.get('/',(req,res) => {
         if(err){
             res.json({message:err.message})
         } else{
-            console.log(users)
+            // console.log(users)
             res.render('index',{
                 title: 'HOME PAGE',
                 users: users
@@ -84,7 +84,7 @@ router.post('/',uploads,(req,res)=>{
 
 router.put('/:id',(req,res) => {
     const found = members.some(members => members.ids === req.params.id)
-    console.log(found)
+    // console.log(found)
     if (found){
         const updMember = req.body;
         members.forEach(member => {
@@ -133,5 +133,57 @@ router.get('/delete/:id',(req,res) => {
 //     }
     
 // });
+
+// eDit and User 
+router.get('/edit/:id',(req,res) => {
+    let id = req.params.id;
+    // console.log(id)
+    new_member.findById(id,(err,users)=>{
+        if (err){
+            res.redirect('/');
+        } else{ 
+            if (users==null){
+                res.redirect('/');
+            }
+            else{
+                console.log(users['email'])
+                res.render('edit_user',{
+                        title: 'Edit USer',
+                        users: users,
+                });
+            }
+        }
+    }).lean();
+});
+
+// update user route
+router.post('/update/:id',uploads,(req,res) => {
+    let id = req.params.id;
+    let new_image = '';
+    if (req.file){
+        new_image = req.file.filename;
+        try{
+            fs.unlinkSync('./routes/api/uploads',+req.body.old_image);
+        } catch(err){
+            console.log(err)
+        }
+    }
+    else{
+        new_image = req.body.old_image
+    }
+    new_member.findByIdAndUpdate(id,{
+        names:req.body.name,
+        email:req.body.email,
+        image:new_image
+    }, (err,result)=>
+    {
+        if (err){
+            res.json({message:err.message,type:'danger'})
+        } else{
+            res.redirect('/')
+        }
+
+    });
+})
 
 module.exports = router;

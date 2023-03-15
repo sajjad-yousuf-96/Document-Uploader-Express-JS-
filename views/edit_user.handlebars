@@ -1,0 +1,50 @@
+<h1 class="text-center mb-3">{{title}}</h1>
+<form action="/update/{{users._id}}" method="POST" class="mb-4" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="names">Name</label>
+        <input type="text" name="names" value="{{users.name}}" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" name="email" value="{{users.email}}" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="image">Image</label>
+        <input type="file" name="image">
+        <br>
+        <img style="width:300px;" src="/{{users.image}}">
+        <br>
+        <input type="hidden" name="old_image" value="{{users.image}}">
+        <br>
+    </div>
+<input type="submit" value="Update Member" class="btn btn-success btn-block">
+</form>
+{{!-- <div class="table">
+    <table class="table table-striped text-center">
+        <thead>
+            <tr>
+                <th>NAMES</th>
+                <th>E-mail</th>
+                <th>Images</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each users}}
+            <tr>
+                <td>{{this.name}}</td>
+                <td>{{this.email}}</td>
+                <td><a href="/{{this.image}}" download="/{{this.image}}"> Download</td>
+                <td>
+                    <a href="/api/members/edit/{{this._id}}" class="text-success">EDIT<i class="fas fa-edit"></i></a>
+                    <a href="/delete/{{this._id}}" class="text-danger">DELETE<i class="fas fa-trash"></i></a>
+                </td>
+
+            </tr>
+            {{/each}}
+        </tbody>
+    </table> --}}
+{{!-- {{#each members}}
+<li class="list-group-item">{{this.names}}: {{this.email}}</li>
+{{/each}} --}}
+</div>
